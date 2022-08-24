@@ -38,19 +38,21 @@ RSpec.describe Game do
     expect(ships - game.unplaced_ships.length).to eq 1
   end
 
-  it "does not place ship on board if out of index horizontally" do
-    game = Game.new(ships: [5,4,3,3,2], rows: 10, cols: 10)
-    expect{  game.place_ship(row: 8,col: 10, ship: 4, dir: "h")  }.to raise_error "Ship out of index"
-  end
+  context "checks index" do
+    it "alerts ship that does not fit on board horizontally" do
+      game = Game.new(ships: [5,4,3,3,2], rows: 10, cols: 10)
+      expect(game.check_index(row: 8,col: 10, ship: 4, dir: "h")).to eq "Ship does not fit on board."
+    end
 
-  it "does not place ship on board if out of index vertically" do
-    game = Game.new(ships: [5,4,3,3,2], rows: 10, cols: 10)
-    expect{  game.place_ship(row: 7,col: 7, ship: 4, dir: "v")  }.to raise_error "Ship out of index"
-  end
+    it "alerts for ship that does not fit on board vertically" do
+      game = Game.new(ships: [5,4,3,3,2], rows: 10, cols: 10)
+      expect(game.check_index(row: 7,col: 7, ship: 4, dir: "v")).to eq "Ship does not fit on board."
+    end
 
-  it "does not place ship on board if index is already occupied" do
-    game = Game.new(ships: [5,4,3,3,2], rows: 10, cols: 10)
-    game.place_ship(row:4, col:4, ship: 5, dir: "h")
-    expect{  game.place_ship(row: 3,col: 6, ship: 4, dir: "v")  }.to raise_error "Index occupied"
+    it "alerts for ship that overlaps with another ship" do
+      game = Game.new(ships: [5,4,3,3,2], rows: 10, cols: 10)
+      game.place_ship(row:4, col:4, ship: 5, dir: "h")
+      expect(game.check_index(row: 3,col: 6, ship: 4, dir: "v")).to eq "Ship overlaps with another."
+    end
   end
 end

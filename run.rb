@@ -1,18 +1,9 @@
 $LOAD_PATH << "lib"
 require "game"
 require "user_interface"
+require "io"
 
-class TerminalIO
-  def gets
-    return Kernel.gets
-  end
-
-  def puts(message)
-    Kernel.puts(message)
-  end
-end
-
-io = TerminalIO.new
-game = Game.new
-user_interface = UserInterface.new(io, game)
+ships = [5,4,3,3,2]
+game = Game.new(ships: ships, rows: 10, cols: 10)
+user_interface = UserInterface.new(game, TerminalIO.new)
 user_interface.run

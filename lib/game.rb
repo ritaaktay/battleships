@@ -1,26 +1,19 @@
 class Game
   def initialize(ships:, rows:, cols:)
+    @rows, @cols = rows, cols
     @unplaced_ships = ships
     @board = Array.new(rows) {Array.new(cols, ".")}
   end
 
-  attr_reader :unplaced_ships, :board
-
-  def print
-    for row in @board
-      p row
-    end
-  end
+  attr_reader :unplaced_ships, :board, :rows, :cols
 
   def place_ship(row:, col:, ship:, dir:)
     case dir
     when "v"
-      check_index(row: row, col: col, ship: ship, dir: dir)
       for i in row...row+ship do
         @board[i][col] = "S" 
       end
     when "h"
-      check_index(row: row, col: col, ship: ship, dir: dir)
       for i in col...col+ship do 
         @board[row][i] = "S" 
       end
@@ -32,14 +25,16 @@ class Game
     case dir
     when "v"
       for i in row...row+ship do
-        fail "Ship out of index" if !@board[i] || !@board[i][col]
-        fail "Index occupied" if @board[i][col] == "S" 
+        return "Ship does not fit on board." if !@board[i] || !@board[i][col]
+        return "Ship overlaps with another." if @board[i][col] == "S" 
       end
+      return true
     when "h"
       for i in col...col+ship do 
-        fail "Ship out of index" if !@board[row] || !@board[row][i]
-        fail "Index occupied" if @board[row][i] == "S" 
+        return "Ship does not fit on board."  if !@board[row] || !@board[row][i]
+        return "Ship overlaps with another." if @board[row][i] == "S" 
       end
+      return true
     end
   end
 
