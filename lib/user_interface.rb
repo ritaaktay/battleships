@@ -1,5 +1,3 @@
-require 'io'
-
 class UserInterface
   def initialize(game, io)
     @game, @io = game, io

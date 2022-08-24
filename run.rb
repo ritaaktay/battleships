@@ -1,7 +1,7 @@
 $LOAD_PATH << "lib"
 require "game"
 require "user_interface"
-require "io"
+require "terminal_io"
 
 ships = [5,4,3,3,2]
 game = Game.new(ships: ships, rows: 10, cols: 10)
