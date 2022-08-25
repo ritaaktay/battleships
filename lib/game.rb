@@ -8,6 +8,7 @@ class Game
   attr_reader :unplaced_ships, :board, :rows, :cols
 
   def place_ship(row:, col:, ship:, dir:)
+    @io.swap_players
     case dir
     when "v"
       for i in row...row+ship do

@@ -5,30 +5,40 @@ class UserInterface
 
   def run
     @io.start
-    place_ships
+    ship_placement
+    #this will actually swap players too
+    @io.swap_players
   end
 
   private
 
-  def place_ships
-    ship = @io.get_ship(@game.unplaced_ships)
-    dir = @io.get_dir
-    row, col = get_location(ship: ship, dir: dir)
-    @game.place_ship(
-      ship: ship,
-      dir: dir,
-      row: row,
-      col: col, 
-    )
-    @io.print_board(@game.board)
+  def ship_placement
+    while @game.unplaced_ships.length > 0
+      ship = @io.get_ship(@game.unplaced_ships)
+      dir = @io.get_dir
+      row, col = get_location(ship: ship, dir: dir)
+      @game.place_ship(ship: ship, dir: dir, row: row, col: col, )
+      @io.print_board(@game.board)
+    end
+    @io.display "Your ships are ready for battle"
   end
 
+  def game_index(index)
+    return index.map {|i| i-1} if index.class == Array 
+    i-1
+  end
+
+  #Flow:
+  #TerminalIO gets row_col from user
+  #Game checks index validity
+  #UserInterface get_location loops the mediation until valid
+  #returns to UserInterface palce_ships for placement
   def get_location(ship:, dir:)
-      row, col = @io.get_row_col
+      row, col = game_index(@io.get_row_col)
       valid = @game.check_index(row: row, col: col, ship: ship, dir: dir)
       while valid != true
-        @io.display "#{valid} Try again."
-        row, col = @io.get_row_col
+        @io.try_again
+        row, col = game_index(@io.get_row_col)
         valid = @game.check_index(row: row, col: col,ship: ship, dir: dir)
       end
       [row, col]
