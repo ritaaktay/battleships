@@ -19,16 +19,16 @@
 |                                  |       |                                    |
 |   Formats outputs                |       | The shot respose method in Player  |
 |                                  |       | can return signifying loss         |
-+----------------------------------+       +-----+------------------------------+
-                                                 |
-                           +---------------------+---------+     +-------------------------------+
-                           |   Player                      |     | Board                         |
-                           |                               |     |                               |
-                           |   Initializes with 2 x Board  |     | Keeps ship data in @own       |
-                           |                               |     | Keeps hit/miss data in @opp   |
-                           |   Places ships                |     | "S" ship, "." empty, "X" hit  |
-                           |   Shoots at opponent          +-----+ "O" miss                      |
-                           |   Views hit & misses          |     |                               |
-                           |   Responds to shots           |     | Responds to checks based on   |
-                           |                               |     | data from board               |
-                           +-------------------------------+     +-------------------------------+
++----------------------------------+       +------------------------------------+
+                                           |
+             +-----------------------------+-+     +-------------------------------+
+             |   Player                      |     | Board                         |
+             |                               |     |                               |
+             |   Initializes with 2 x Board  |     | Keeps ship data in @own       |
+             |                               |     | Keeps hit/miss data in @opp   |
+             |   Places ships                |     | "S" ship, "." empty, "X" hit  |
+             |   Shoots at opponent          +-----+ "O" miss                      |
+             |   Views hit & misses          |     |                               |
+             |   Responds to shots           |     | Responds to checks based on   |
+             |                               |     | data from board               |
+             +-------------------------------+     +-------------------------------+
