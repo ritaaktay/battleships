@@ -4,8 +4,10 @@
     +Mediates between TerminalIO and Game
     +Creates flow of operations
    }
-   UserInterface <.. TerminalIO
-   UserInterface <.. Game
+   UserInterface .. TerminalIO
+   UserInterface .. Game
+   Game .. Player
+   Board .. Game
 ```
              
              +---------------------------------+
