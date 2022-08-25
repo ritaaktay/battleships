@@ -1,11 +1,11 @@
 ```mermaid
-    classDiagram
-   class BankAccount{
-    +String owner
-    +BigDecimal balance
-    +deposit(amount)
-    +withdrawal(amount)
-}
+   classDiagram
+   class UserInterface{
+    +Mediates between TerminalIO and Game
+    +Creates flow of operations
+   }
+   UserInterface <.. TerminalIO
+   UserInterface <.. Game
 ```
              
              +---------------------------------+
@@ -14,7 +14,7 @@
                   |   Mediates between TerminalIO   |
                   |   and Game                      |
                   |                                 |
-                  |   Creates flow of operations    |
+                  |       |
                   |                                 |
                   +------+------------------------+-+
                          |                        |
