@@ -37,7 +37,7 @@ class UserInterface
       row, col = game_index(@io.get_row_col)
       valid = @game.check_index(row: row, col: col, ship: ship, dir: dir)
       while valid != true
-        @io.try_again
+        @io.display(@io.try_again(valid))
         row, col = game_index(@io.get_row_col)
         valid = @game.check_index(row: row, col: col,ship: ship, dir: dir)
       end

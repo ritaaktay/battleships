@@ -19,28 +19,26 @@ class TerminalIO
 
   def start
     display "Welcome to the game!"
-    display "Set up your ships first."
   end
 
   def show_ships(ships)
-    display "You have these ships remaining: #{ships.join(", ")}"
+    "You have these ships remaining: #{ships.join(", ")}"
   end
 
   def get_ship(ships)
-    show_ships(ships)
-    ship = prompt "Which do you wish to place?"
+    ship = prompt "Select a ship from your fleet\n#{show_ships(ships)}"
     until ships.include?(ship.to_i)
-      ship = prompt "Select a valid ship\n#{show_ships(ships)}"
+      ship = prompt(try_again("Not a valid ship.\n#{show_ships(ships)}"))
     end
     ship.to_i
   end
   
   def get_dir
-    dir = prompt "Vertical or horizontal? [vh]"
+    dir = prompt "Vertical or horizontal? (v\h)"
     until /[vh]/i =~ dir
-      dir = prompt "Please enter valid orientation [v for vertical, h for horizontal]"
+      dir = prompt(try_again("Not a valid orientation ('v' for vertical, 'h' for horizontal)"))
     end
-    dir
+    /v/i =~ dir ? :vertical : :horizontal
   end
 
   def get_row_col
@@ -50,7 +48,7 @@ class TerminalIO
   end
 
   def try_again(feedback)
-    display "#{feedback}. Try again"
+    "#{feedback}.\nTry again."
   end
 
   def print_board(board)

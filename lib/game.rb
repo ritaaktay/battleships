@@ -9,11 +9,11 @@ class Game
 
   def place_ship(row:, col:, ship:, dir:)
     case dir
-    when "v"
+    when :vertical
       for i in row...row+ship do
         @board[i][col] = "S" 
       end
-    when "h"
+    when :horizontal
       for i in col...col+ship do 
         @board[row][i] = "S" 
       end
@@ -23,13 +23,13 @@ class Game
 
   def check_index(row:, col:, ship:, dir:)
     case dir
-    when "v"
+    when :vertical
       for i in row...row+ship do
         return "Ship does not fit on board." if !@board[i] || !@board[i][col]
         return "Ship overlaps with another." if @board[i][col] == "S" 
       end
       return true
-    when "h"
+    when :horizontal
       for i in col...col+ship do 
         return "Ship does not fit on board."  if !@board[row] || !@board[row][i]
         return "Ship overlaps with another." if @board[row][i] == "S" 
