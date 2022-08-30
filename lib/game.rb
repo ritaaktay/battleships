@@ -1,44 +1,37 @@
 class Game
-  def initialize(ships:, rows:, cols:)
-    @rows, @cols = rows, cols
-    @unplaced_ships = ships
-    @board = Array.new(rows) {Array.new(cols, ".")}
+  def initialize(io:, player1:, player2:, ships:, rows:, cols:)
+    @player1, @player2 = player1, player2
+    @rows, @cols, @ships = rows, cols, ships
+    @io = io
   end
 
-  attr_reader :unplaced_ships, :board, :rows, :cols
+  attr_reader :rows, :cols, :ships
 
-  def place_ship(row:, col:, ship:, dir:)
-    case dir
-    when :vertical
-      for i in row...row+ship do
-        @board[i][col] = "S" 
-      end
-    when :horizontal
-      for i in col...col+ship do 
-        @board[row][i] = "S" 
-      end
+  def run
+    @io.start
+    ship_placement
+    @io.swap_players
+  end
+
+  def ship_placement
+    while @game.unplaced_ships.length > 0
+      ship = @io.get_ship(@game.unplaced_ships)
+      dir = @io.get_dir
+      row, col = get_location(ship: ship, dir: dir)
+      @game.place_ship(ship: ship, dir: dir, row: row, col: col, )
+      @io.print_board(@game.board)
     end
-    remove_placed_ship(ship)
+    @io.display "Your ships are ready for battle"
   end
 
-  def check_index(row:, col:, ship:, dir:)
-    case dir
-    when :vertical
-      for i in row...row+ship do
-        return "Ship does not fit on board." if !@board[i] || !@board[i][col]
-        return "Ship overlaps with another." if @board[i][col] == "S" 
-      end
-      return true
-    when :horizontal
-      for i in col...col+ship do 
-        return "Ship does not fit on board."  if !@board[row] || !@board[row][i]
-        return "Ship overlaps with another." if @board[row][i] == "S" 
-      end
-      return true
+  def get_location(ship:, dir:) 
+    row, col = game_index(@io.get_row_col(rows: @game.rows, cols: @game.cols))
+    valid = @game.check_index(row: row, col: col, ship: ship, dir: dir)
+    while valid != true
+      @io.display(@io.try_again(valid))
+      row, col = game_index(@io.get_row_col(rows: @game.rows, cols: @game.cols))
+      valid = @game.check_index(row: row, col: col,ship: ship, dir: dir)
     end
-  end
-
-  def remove_placed_ship(ship)
-    @unplaced_ships.delete_at(@unplaced_ships.index(ship))
+    [row, col]
   end
 end

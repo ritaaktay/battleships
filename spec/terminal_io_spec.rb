@@ -74,7 +74,7 @@ RSpec.describe TerminalIO do
       expect(io).to receive(:puts).with("Which column?").ordered
       expect(io).to receive(:gets).and_return("6").ordered
     end
-    it {expect(terminal.get_row_col(rows:10, cols:10)).to eq [9,6]}
+    it {expect(terminal.get_row_col(rows:10, cols:10)).to eq [8,5]}
   end
 
   describe '.try_again' do

@@ -49,7 +49,12 @@ class TerminalIO
       row = prompt("Which row?").to_i
       col = prompt("Which column?").to_i
     end
-    [row,col]
+    game_index([row,col])
+  end
+
+  def game_index(index)
+    return index.map {|i| i-1} if index.class == Array 
+    index-1
   end
 
   def try_again(feedback)
