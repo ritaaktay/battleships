@@ -33,12 +33,12 @@ class UserInterface
   #Game checks index validity
   #UserInterface get_location loops the mediation until valid
   #returns to UserInterface palce_ships for placement
-  def get_location(ship:, dir:)
-      row, col = game_index(@io.get_row_col)
+  def get_location(ship:, dir:) 
+      row, col = game_index(@io.get_row_col(rows: @game.rows, cols: @game.cols))
       valid = @game.check_index(row: row, col: col, ship: ship, dir: dir)
       while valid != true
         @io.display(@io.try_again(valid))
-        row, col = game_index(@io.get_row_col)
+        row, col = game_index(@io.get_row_col(rows: @game.rows, cols: @game.cols))
         valid = @game.check_index(row: row, col: col,ship: ship, dir: dir)
       end
       [row, col]

@@ -41,9 +41,14 @@ class TerminalIO
     /v/i =~ dir ? :vertical : :horizontal
   end
 
-  def get_row_col
+  def get_row_col(rows:, cols:)
     row = prompt("Which row?").to_i
     col = prompt("Which column?").to_i
+    while row > rows || row < 1 || col > cols || col < 1 do
+      display(try_again("Not a valid row or column"))
+      row = prompt("Which row?").to_i
+      col = prompt("Which column?").to_i
+    end
     [row,col]
   end
 
