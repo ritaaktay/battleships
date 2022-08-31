@@ -25,7 +25,7 @@ RSpec.describe TerminalIO do
 
   describe '.swap_players' do
     before do
-      expect(io).to receive(:puts).with("Press enter to swap palyers").ordered
+      expect(io).to receive(:puts).with("Press enter").ordered
       expect(io).to receive(:gets).and_return("").ordered
       expect(io).to receive(:puts).with(".\n"*50).ordered 
     end

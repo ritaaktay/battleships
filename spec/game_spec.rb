@@ -17,4 +17,13 @@ RSpec.describe Game do
   describe '.initialize' do
     it {expect(game).to be}
   end
+
+  describe '.run' do
+    before do 
+      expect(terminal_io).to receive(:start).ordered
+      #ship placement 
+      expect(terminal_io). to receive(:swap_players).ordered
+    end
+    it {game.run}
+  end
 end

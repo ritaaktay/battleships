@@ -29,14 +29,14 @@ class Player
     case dir
     when :vertical
       for i in row...row+ship do
-        return "Ship does not fit on board." if !@own_board[i] || !@own_board[i][col]
-        return "Ship overlaps with another." if @own_board[i][col] == "S" 
+        return "Ship does not fit on board" if !@own_board[i] || !@own_board[i][col]
+        return "Ship overlaps with another" if @own_board[i][col] == "S" 
       end
       return true
     when :horizontal
       for i in col...col+ship do 
-        return "Ship does not fit on board."  if !@own_board[row] || !@own_board[row][i]
-        return "Ship overlaps with another." if @own_board[row][i] == "S" 
+        return "Ship does not fit on board"  if !@own_board[row] || !@own_board[row][i]
+        return "Ship overlaps with another" if @own_board[row][i] == "S" 
       end
       return true
     end

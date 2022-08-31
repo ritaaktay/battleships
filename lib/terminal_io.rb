@@ -12,13 +12,13 @@ class TerminalIO
     @io.puts message
   end
 
-  def swap_players
-    swap = prompt "Press enter to swap palyers"
-    display ".\n"*50 if swap == ""
+  def swap_players(message)
+    display ".\n"*50 
+    enter_to_continue(message) if message
   end
 
-  def start
-    display "Welcome to the game!"
+  def enter_to_continue(message)
+    prompt "#{message}\nPress enter to continue."
   end
 
   def show_ships(ships)
