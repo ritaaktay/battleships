@@ -46,18 +46,18 @@ RSpec.describe Player do
   describe '.check_index' do
     context 'when does not fit on board horizontally' do
       subject {player.check_index(row: 8,col: 10, ship: 4, dir: :horizontal)}
-      it {is_expected.to eq "Ship does not fit on board."}
+      it {is_expected.to eq "Ship does not fit on board"}
     end
   
     context 'when does not fit on board vertically' do
       subject {player.check_index(row: 7,col: 7, ship: 4, dir: :vertical)}
-      it {is_expected.to eq "Ship does not fit on board."}
+      it {is_expected.to eq "Ship does not fit on board"}
     end
   
     context 'when overlaps with another ship' do
       before {player.place_ship(row:4, col:4, ship: 5, dir: :horizontal)}
       subject {player.check_index(row: 3,col: 6, ship: 4, dir: :vertical)}
-      it {is_expected.to eq "Ship overlaps with another."}
+      it {is_expected.to eq "Ship overlaps with another"}
     end
   end
 end

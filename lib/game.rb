@@ -1,16 +1,16 @@
 class Game
-  def initialize(io:, ships:, rows:, cols:)
-    @player1 = Player.new(rows: rows, cols: cols, ships: ships.clone)
-    @player2 = Player.new(rows: rows, cols: cols, ships: ships.clone)
+  def initialize(io:, ships:, rows:, cols:, player:)
+    @player1 = player.new(rows: rows, cols: cols, ships: ships.clone)
+    @player2 = player.new(rows: rows, cols: cols, ships: ships.clone)
     @io, @rows, @cols = io, rows, cols
   end
 
   def run
     @io.enter_to_continue("Welcome to the game!\nPlayer 1, ready to place your ships?")
     ship_placement(@player1)
-    @io.swap_players("Player 2, ready to place your ships?")
+    @io.swap_players(message: "Player 2, ready to place your ships?")
     ship_placement(@player2)
-    @io.swap_players("Take turns shooting. Player 1 starts.")
+    @io.swap_players(message: "Take turns shooting. Player 1 starts.")
   end
 
   def ship_placement(player)

@@ -12,7 +12,7 @@ class TerminalIO
     @io.puts message
   end
 
-  def swap_players(message)
+  def swap_players(message:)
     display ".\n"*50 
     enter_to_continue(message) if message
   end

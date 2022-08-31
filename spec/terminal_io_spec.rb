@@ -4,11 +4,6 @@ RSpec.describe TerminalIO do
 
   let(:io) { double(:io) }
   let(:terminal) { TerminalIO.new(io)}
-
-  describe '.start' do
-    before {expect(io).to receive(:puts).with("Welcome to the game!")}
-    it {terminal.start}
-  end
   
   describe '.display' do
       before {expect(io).to receive(:puts).with("Hello")}
@@ -25,11 +20,17 @@ RSpec.describe TerminalIO do
 
   describe '.swap_players' do
     before do
-      expect(io).to receive(:puts).with("Press enter").ordered
-      expect(io).to receive(:gets).and_return("").ordered
       expect(io).to receive(:puts).with(".\n"*50).ordered 
     end
-    it {terminal.swap_players}
+    it {terminal.swap_players(message: nil)}
+  end
+
+  describe '.enter_to_continue' do
+    before do
+      expect(io).to receive(:puts).with("Hello!\nPress enter to continue.")
+      expect(io).to receive(:gets).and_return("")
+    end
+    it {terminal.enter_to_continue("Hello!")}
   end
 
   describe '.get_ship' do 
