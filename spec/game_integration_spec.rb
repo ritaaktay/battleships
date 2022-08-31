@@ -20,11 +20,11 @@ RSpec.describe Game do
     context 'when valid location' do
       before do
         expect(io).to receive(:enter_to_continue).with("Welcome to the game!\nPlayer 1, ready to place your ships?")
-        four_ships
-        valid_ship
+        place_all_but_one_ship
+        place_valid_ship
         expect(io).to receive(:swap_players).with(message:"Player 2, ready to place your ships?")
-        four_ships
-        valid_ship
+        place_all_but_one_ship
+        place_valid_ship
         expect(io).to receive(:swap_players).with(message: "Take turns shooting. Player 1 starts.")
       end
       it {game.setup}
@@ -33,11 +33,11 @@ RSpec.describe Game do
     context 'when invalid location' do
       before do
         expect(io).to receive(:enter_to_continue).with("Welcome to the game!\nPlayer 1, ready to place your ships?")
-        four_ships
-        out_of_bounds_ship
+        place_all_but_one_ship
+        place_out_of_bounds_ship
         expect(io).to receive(:swap_players).with(message:"Player 2, ready to place your ships?")
-        four_ships
-        overlapping_ship
+        place_all_but_one_ship
+        place_overlapping_ship
         expect(io).to receive(:swap_players).with(message: "Take turns shooting. Player 1 starts.")
       end
       it {game.setup}
@@ -50,7 +50,7 @@ RSpec.describe Game do
         game.player2.own_board[5][5] = "S"
         expect(io).to receive(:get_shot).with(rows:10, cols:10).and_return([5,5])
       end
-      it {expect(game.shots_loop).to eq 1}
+      it {expect(game.loop_players).to eq 1}
     end
 
     context 'when looping' do
@@ -66,12 +66,12 @@ RSpec.describe Game do
         expect(io).to receive(:swap_players).with("Player 1, your turn").ordered
         expect(io).to receive(:get_shot).with(rows:10, cols:10).and_return [5,6]
       end
-      it {expect(game.shots_loop).to eq 1}
+      it {expect(game.loop_players).to eq 1}
     end
   end
 end
 
-def four_ships
+def place_all_but_one_ship
   expect(io).to receive(:get_ship).and_return(5).ordered
   expect(io).to receive(:get_dir).and_return(:vertical).ordered
   expect(io).to receive(:get_row_col).and_return([1,1]).ordered
@@ -90,7 +90,7 @@ def four_ships
   expect(io).to receive(:print_board).ordered
 end
 
-def valid_ship
+def place_valid_ship
   expect(io).to receive(:get_ship).and_return(2).ordered
   expect(io).to receive(:get_dir).and_return(:vertical).ordered
   expect(io).to receive(:get_row_col).and_return([5,5]).ordered
@@ -98,7 +98,7 @@ def valid_ship
   expect(io).to receive(:enter_to_continue).with("Your ships are ready for battle.").ordered
 end
 
-def out_of_bounds_ship
+def place_out_of_bounds_ship
   expect(io).to receive(:get_ship).and_return(2).ordered
   expect(io).to receive(:get_dir).and_return(:vertical).ordered
   expect(io).to receive(:get_row_col).and_return([10,10]).ordered
@@ -109,7 +109,7 @@ def out_of_bounds_ship
   expect(io).to receive(:enter_to_continue).with("Your ships are ready for battle.").ordered
 end 
 
-def overlapping_ship
+def place_overlapping_ship
   expect(io).to receive(:get_ship).and_return(2).ordered
   expect(io).to receive(:get_dir).and_return(:vertical).ordered
   expect(io).to receive(:get_row_col).and_return([1,1]).ordered

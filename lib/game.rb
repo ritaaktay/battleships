@@ -8,7 +8,7 @@ class Game
 
   def run
     setup
-    winner = shots_loop
+    winner = loop_players
     @io.end(winner, @player1.own_board)
   end
 
@@ -20,7 +20,7 @@ class Game
     @io.swap_players(message: "Take turns shooting. Player 1 starts.")
   end 
 
-  def shots_loop
+  def loop_players
     loop do
       winner = shot(shooter: @player1, opp: @player2)
       return 1 if winner == 1
