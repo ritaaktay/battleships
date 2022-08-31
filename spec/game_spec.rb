@@ -11,7 +11,7 @@ RSpec.describe Game do
       cols:10,
   )}
 
-  describe '.run' do
+  describe '.setup' do
     before do
       allow(player).to receive(:new).twice.with(hash_including(:rows, :cols, :ships)).and_return(player)
       expect(terminal_io).to receive(:enter_to_continue).with("Welcome to the game!\nPlayer 1, ready to place your ships?").ordered
@@ -38,6 +38,6 @@ RSpec.describe Game do
       expect(terminal_io). to receive(:enter_to_continue).with("Your ships are ready for battle.")
       expect(terminal_io). to receive(:swap_players).with(message:"Take turns shooting. Player 1 starts.")
     end
-    it {game.run}
+    it {game.setup}
   end
 end

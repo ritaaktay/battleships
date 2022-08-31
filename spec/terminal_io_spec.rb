@@ -87,7 +87,7 @@ RSpec.describe TerminalIO do
     let (:board) {board = Array.new(10) {Array.new(10, ".")}}
     before do
       board[2][1] = board[3][1] = "S"
-      expect(io).to receive(:puts).with("This is your board now:").ordered
+      expect(io).to receive(:puts).with("\n").ordered
       expect(io).to receive(:puts).with(". . . . . . . . . .
 . . . . . . . . . .
 . S . . . . . . . .
@@ -98,6 +98,7 @@ RSpec.describe TerminalIO do
 . . . . . . . . . .
 . . . . . . . . . .
 . . . . . . . . . .").ordered
+    expect(io).to receive(:puts).with("\n").ordered
     end
     it {terminal.print_board(board)}
   end

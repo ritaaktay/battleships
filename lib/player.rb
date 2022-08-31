@@ -5,7 +5,7 @@ class Player
     @unplaced_ships = ships
   end
 
-  attr_reader :unplaced_ships, :own_board, :opp_board
+  attr_accessor :unplaced_ships, :own_board, :opp_board
 
   def place_ship(row:, col:, ship:, dir:)
     case dir
@@ -39,6 +39,25 @@ class Player
         return "Ship overlaps with another" if @own_board[row][i] == "S" 
       end
       return true
+    end
+  end
+
+  def shoot(opp:, row:, col:)
+    if opp.respond(row: row, col: col)
+      @opp_board[row][col] = "X"
+      true
+    elsif !opp.respond(row: row, col: col)
+      @opp_board[row][col] = "O"
+      false
+    end
+  end
+
+  def respond(row:, col:)
+    if @own_board[row][col] == "S"
+      @own_board[row][col] = "X"
+      true
+    elsif @own_board[row][col] == "."
+      false
     end
   end
 

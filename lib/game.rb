@@ -1,4 +1,5 @@
 class Game
+  attr_accessor :player2, :player1
   def initialize(io:, ships:, rows:, cols:, player:)
     @player1 = player.new(rows: rows, cols: cols, ships: ships.clone)
     @player2 = player.new(rows: rows, cols: cols, ships: ships.clone)
@@ -6,11 +7,38 @@ class Game
   end
 
   def run
+    setup
+    winner = shots_loop
+    @io.end(winner, @player1.own_board)
+  end
+
+  def setup
     @io.enter_to_continue("Welcome to the game!\nPlayer 1, ready to place your ships?")
     ship_placement(@player1)
     @io.swap_players(message: "Player 2, ready to place your ships?")
     ship_placement(@player2)
     @io.swap_players(message: "Take turns shooting. Player 1 starts.")
+  end 
+
+  def shots_loop
+    loop do
+      winner = shot(shooter: @player1, opp: @player2)
+      return 1 if winner == 1
+      @io.swap_players("Player 2, your turn")
+      winner = shot(shooter: @player2, opp: @player1)
+      return 2 if winner == 2
+      @io.swap_players("Player 1, your turn")
+    end
+  end
+
+  def shot(shooter:, opp:)
+    row, col = @io.get_shot(rows: @rows, cols: @cols)
+    hit = shooter.shoot(opp:opp, row: row, col: col)
+    if opp.own_board.flatten.include?("S")
+      @io.hit(hit, shooter.opp_board)
+    else 
+      shooter == @player1 ? 1 : 2
+    end
   end
 
   def ship_placement(player)

@@ -62,7 +62,23 @@ class TerminalIO
   end
 
   def print_board(board)
-    display "This is your board now:"
+    display "\n"
     display board.map {|row| row.join(" ")}.join("\n")
+    display "\n"
+  end
+
+  def get_shot(rows:, cols:)
+    display "Call your shot."
+    get_row_col(rows: rows, cols: cols)
+  end
+
+  def hit(hit, board)
+    print_board(board)
+    hit ? enter_to_continue("HIT") : enter_to_continue("MISS")
+  end
+
+  def end(winner, board)
+    display "Player #{winner}, YOU WON!"
+    print_board(board)
   end
 end
