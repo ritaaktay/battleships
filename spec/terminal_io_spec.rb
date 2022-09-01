@@ -23,8 +23,10 @@ RSpec.describe TerminalIO do
   describe '.swap_players' do
     before do
       expect(io).to receive(:puts).with(".\n"*50).ordered 
+      expect(io).to receive(:puts).with("Player 2, your turn.").ordered
+      expect(io).to receive(:puts).with("\n").ordered  
     end
-    it {terminal.swap_players(nil)}
+    it {terminal.swap_players("Player 2, your turn.")}
   end
 
   describe '.enter_to_continue' do

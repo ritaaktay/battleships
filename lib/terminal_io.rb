@@ -14,7 +14,8 @@ class TerminalIO
 
   def swap_players(message)
     display ".\n"*50 
-    enter_to_continue(message) if message
+    display message
+    display "\n"
   end
 
   def enter_to_continue(message)
