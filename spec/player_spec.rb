@@ -2,6 +2,7 @@ require 'player'
 
 RSpec.describe Player do
   let(:player) {Player.new(rows: 10, cols: 10, ships: [5,4,3,3,2])}
+  let(:opp) {Player.new(rows:10, cols:10, ships: [5,4,3,3,2])}
 
   describe '.initialize' do
     it {expect(player).to be}
@@ -58,6 +59,46 @@ RSpec.describe Player do
       before {player.place_ship(row:4, col:4, ship: 5, dir: :horizontal)}
       subject {player.check_index(row: 3,col: 6, ship: 4, dir: :vertical)}
       it {is_expected.to eq "Ship overlaps with another"}
+    end
+  end
+
+  describe '.shoot' do
+    context 'when hit' do
+      before do
+        opp.own_board[5][5] = "S"
+      end
+      it 'returns true and marks opponent board with "X"' do
+        expect(player.shoot(opp: opp, row: 5, col: 5)).to eq true
+        expect(player.opp_board[5][5]).to eq "X"
+      end
+    end
+
+    context 'when miss' do
+      it 'returns false and marks opponent board with "O' do
+        expect(player.shoot(opp: opp, row: 5, col: 5)).to eq false
+        expect(player.opp_board[5][5]).to eq "O"
+      end
+    end
+  end
+  
+  describe '.respond' do 
+    context 'when miss' do
+      it 'returns false' do
+        expect(player.respond(row:5, col:5)).to eq false
+      end
+      it 'leaves own board unaltered' do
+        expect(player.own_board[5][5]).to eq "."
+      end
+    end
+
+    context 'when hit' do
+      before do
+        player.own_board[5][5] = "S"
+      end
+      it 'returns true and marks own board with "X"' do
+        expect(player.respond(row:5, col:5)).to eq true
+        expect(player.own_board[5][5]).to eq "X"
+      end
     end
   end
 end

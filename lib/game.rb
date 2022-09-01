@@ -9,35 +9,35 @@ class Game
   def run
     setup
     winner = loop_players
-    @io.end(winner, @player1.own_board)
+    @io.end(winner == @player1 ? 1 : 2, @winner.opp_board)
   end
 
   def setup
     @io.enter_to_continue("Welcome to the game!\nPlayer 1, ready to place your ships?")
     ship_placement(@player1)
-    @io.swap_players(message: "Player 2, ready to place your ships?")
+    @io.swap_players("Player 2, ready to place your ships?")
     ship_placement(@player2)
-    @io.swap_players(message: "Take turns shooting. Player 1 starts.")
+    @io.swap_players("Take turns shooting. Player 1 starts.")
   end 
 
   def loop_players
     loop do
       winner = shot(shooter: @player1, opp: @player2)
-      return 1 if winner == 1
+      return @player1 if winner
       @io.swap_players("Player 2, your turn")
       winner = shot(shooter: @player2, opp: @player1)
-      return 2 if winner == 2
+      return @player2 if winner
       @io.swap_players("Player 1, your turn")
     end
   end
 
   def shot(shooter:, opp:)
-    row, col = @io.get_shot(rows: @rows, cols: @cols)
+    row, col = @io.get_shot(rows: @rows, cols: @cols, board: shooter.opp_board)
     hit = shooter.shoot(opp:opp, row: row, col: col)
     if opp.own_board.flatten.include?("S")
       @io.hit(hit, shooter.opp_board)
     else 
-      shooter == @player1 ? 1 : 2
+      shooter == @player1 ? @player1 : @player2
     end
   end
 

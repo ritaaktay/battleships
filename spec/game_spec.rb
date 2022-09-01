@@ -25,7 +25,7 @@ RSpec.describe Game do
       expect(terminal_io).to receive(:print_board)
       expect(player).to receive(:unplaced_ships).and_return([])
       expect(terminal_io).to receive(:enter_to_continue).with("Your ships are ready for battle.")
-      expect(terminal_io). to receive(:swap_players).with(message:"Player 2, ready to place your ships?")
+      expect(terminal_io). to receive(:swap_players).with("Player 2, ready to place your ships?")
       expect(player).to receive(:unplaced_ships).and_return([5,4,3,3,2]).twice
       expect(terminal_io).to receive(:get_ship).with([5,4,3,3,2]).and_return(5)
       expect(terminal_io).to receive(:get_dir).and_return(:vertical)
@@ -36,7 +36,7 @@ RSpec.describe Game do
       expect(terminal_io).to receive(:print_board)
       expect(player).to receive(:unplaced_ships).and_return([])
       expect(terminal_io). to receive(:enter_to_continue).with("Your ships are ready for battle.")
-      expect(terminal_io). to receive(:swap_players).with(message:"Take turns shooting. Player 1 starts.")
+      expect(terminal_io). to receive(:swap_players).with("Take turns shooting. Player 1 starts.")
     end
     it {game.setup}
   end

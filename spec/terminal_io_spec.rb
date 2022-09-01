@@ -4,11 +4,8 @@ RSpec.describe TerminalIO do
 
   let(:io) { double(:io) }
   let(:terminal) { TerminalIO.new(io)}
+  let (:empty_board) {board = Array.new(10) {Array.new(10, ".")}}
   
-  describe '.display' do
-      before {expect(io).to receive(:puts).with("Hello")}
-      it {terminal.display("Hello")}
-  end
 
   describe '.prompt' do
     before do 
@@ -18,11 +15,16 @@ RSpec.describe TerminalIO do
     it {expect(terminal.prompt("What is your name?")).to eq "Rita"}
   end
 
+  describe '.display' do
+      before {expect(io).to receive(:puts).with("Hello")}
+      it {terminal.display("Hello")}
+  end
+
   describe '.swap_players' do
     before do
       expect(io).to receive(:puts).with(".\n"*50).ordered 
     end
-    it {terminal.swap_players(message: nil)}
+    it {terminal.swap_players(nil)}
   end
 
   describe '.enter_to_continue' do
@@ -65,15 +67,7 @@ RSpec.describe TerminalIO do
 
   describe '.get_row_col' do
     before do
-      expect(io).to receive(:puts).with("Which row?").ordered
-      expect(io).to receive(:gets).and_return("14").ordered
-      expect(io).to receive(:puts).with("Which column?").ordered
-      expect(io).to receive(:gets).and_return("h").ordered
-      expect(io).to receive(:puts).with("Not a valid row or column.\nTry again.").ordered
-      expect(io).to receive(:puts).with("Which row?").ordered
-      expect(io).to receive(:gets).and_return("9").ordered
-      expect(io).to receive(:puts).with("Which column?").ordered
-      expect(io).to receive(:gets).and_return("6").ordered
+     get_row_col
     end
     it {expect(terminal.get_row_col(rows:10, cols:10)).to eq [8,5]}
   end
@@ -84,22 +78,84 @@ RSpec.describe TerminalIO do
   end
 
   describe '.print_board' do
-    let (:board) {board = Array.new(10) {Array.new(10, ".")}}
     before do
-      board[2][1] = board[3][1] = "S"
-      expect(io).to receive(:puts).with("\n").ordered
-      expect(io).to receive(:puts).with(". . . . . . . . . .
-. . . . . . . . . .
-. S . . . . . . . .
-. S . . . . . . . .
-. . . . . . . . . .
-. . . . . . . . . .
-. . . . . . . . . .
-. . . . . . . . . .
-. . . . . . . . . .
-. . . . . . . . . .").ordered
-    expect(io).to receive(:puts).with("\n").ordered
+      print_empty_board
     end
-    it {terminal.print_board(board)}
+    it {terminal.print_board(empty_board)}
   end
+
+  describe '.get_shot' do
+    before do
+      print_empty_board
+      expect(io).to receive(:puts).with("Call your shot.").ordered
+      get_row_col.ordered
+    end
+    it {terminal.get_shot(rows: 10, cols: 10, board:empty_board)}
+  end
+
+  describe '.hit' do
+    context 'when hit' do
+      before do
+        print_empty_board
+        expect(io).to receive(:puts).with("HIT\nPress enter to continue.")
+        expect(io).to receive(:gets).and_return("")
+      end
+      it {terminal.hit(true, empty_board)}
+    end
+
+    context 'when miss' do
+      before do
+        print_empty_board
+        expect(io).to receive(:puts).with("MISS\nPress enter to continue.")
+        expect(io).to receive(:gets).and_return("")
+      end
+      it {terminal.hit(false, empty_board)}
+    end
+  end
+
+  describe '.end' do
+    context 'when player 1 wins' do
+      before do
+        expect(io).to receive(:puts).with("Player 1, YOU WON!")
+        print_empty_board
+      end
+      it {terminal.end(1, empty_board)}
+    end
+
+    context 'when player 2 wins' do
+      before do
+        expect(io).to receive(:puts).with("Player 2, YOU WON!")
+        print_empty_board
+      end
+      it {terminal.end(2, empty_board)}
+    end
+  end
+
+end
+
+def print_empty_board 
+  expect(io).to receive(:puts).with("\n").ordered
+  expect(io).to receive(:puts).with(". . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .
+. . . . . . . . . .")
+  expect(io).to receive(:puts).with("\n").ordered
+end
+
+def get_row_col
+  expect(io).to receive(:puts).with("Which row?").ordered
+  expect(io).to receive(:gets).and_return("14").ordered
+  expect(io).to receive(:puts).with("Which column?").ordered
+  expect(io).to receive(:gets).and_return("h").ordered
+  expect(io).to receive(:puts).with("Not a valid row or column.\nTry again.").ordered
+  expect(io).to receive(:puts).with("Which row?").ordered
+  expect(io).to receive(:gets).and_return("9").ordered
+  expect(io).to receive(:puts).with("Which column?").ordered
+  expect(io).to receive(:gets).and_return("6").ordered
 end

@@ -5,7 +5,7 @@ class Player
     @unplaced_ships = ships
   end
 
-  attr_accessor :unplaced_ships, :own_board, :opp_board
+  attr_accessor :unplaced_ships, :own_board, :opp_board, :name
 
   def place_ship(row:, col:, ship:, dir:)
     case dir
@@ -60,5 +60,4 @@ class Player
       false
     end
   end
-
 end

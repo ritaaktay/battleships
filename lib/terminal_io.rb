@@ -12,7 +12,7 @@ class TerminalIO
     @io.puts message
   end
 
-  def swap_players(message:)
+  def swap_players(message)
     display ".\n"*50 
     enter_to_continue(message) if message
   end
@@ -67,7 +67,8 @@ class TerminalIO
     display "\n"
   end
 
-  def get_shot(rows:, cols:)
+  def get_shot(rows:, cols:, board:)
+    print_board(board)
     display "Call your shot."
     get_row_col(rows: rows, cols: cols)
   end
