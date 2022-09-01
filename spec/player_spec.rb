@@ -83,10 +83,8 @@ RSpec.describe Player do
   
   describe '.respond' do 
     context 'when miss' do
-      it 'returns false' do
+      it 'returns false and leaves own board unaltered' do
         expect(player.respond(row:5, col:5)).to eq false
-      end
-      it 'leaves own board unaltered' do
         expect(player.own_board[5][5]).to eq "."
       end
     end

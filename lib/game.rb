@@ -9,7 +9,7 @@ class Game
   def run
     setup
     winner = loop_players
-    @io.end(winner == @player1 ? 1 : 2, @winner.opp_board)
+    @io.end(winner == @player1 ? 1 : 2, winner.opp_board)
   end
 
   def setup
@@ -21,14 +21,16 @@ class Game
   end 
 
   def loop_players
+    winner = nil
     loop do
       winner = shot(shooter: @player1, opp: @player2)
-      return @player1 if winner
+      break if winner == @player1
       @io.swap_players("Player 2, your turn")
       winner = shot(shooter: @player2, opp: @player1)
-      return @player2 if winner
+      break if winner == @player2
       @io.swap_players("Player 1, your turn")
     end
+    winner
   end
 
   def shot(shooter:, opp:)
@@ -36,6 +38,7 @@ class Game
     hit = shooter.shoot(opp:opp, row: row, col: col)
     if opp.own_board.flatten.include?("S")
       @io.hit(hit, shooter.opp_board)
+      return false
     else 
       shooter == @player1 ? @player1 : @player2
     end
