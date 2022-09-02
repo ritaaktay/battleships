@@ -39,21 +39,28 @@ class Player
   end
 
   def shoot(opp:, row:, col:)
-    if opp.respond(row: row, col: col)
-      @opp_board[row][col] = "X"
-      true
-    elsif !opp.respond(row: row, col: col)
-      @opp_board[row][col] = "O"
+    case opp.respond(row: row, col: col) 
+    when false
       false
-    end
+    when :hit
+      @opp_board[row][col] = "X"
+      :hit
+    when :miss
+      @opp_board[row][col] = "O"
+      :miss
+    end 
   end
 
   def respond(row:, col:)
-    if @own_board[row][col] == "S"
-      @own_board[row][col] = "X"
-      true
-    elsif @own_board[row][col] == "."
+    case @own_board[row][col]
+    when "X" || "O"
       false
+    when "S"
+      @own_board[row][col] = "X"
+      :hit
+    when "."
+      @own_board[row][col] = "O"
+      :miss
     end
   end
 

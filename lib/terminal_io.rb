@@ -22,6 +22,10 @@ class TerminalIO
     prompt "#{message}\nPress enter to continue."
   end
 
+  def try_again(message)
+    "#{message}.\nTry again."
+  end
+
   def get_ship(ships)
     ship = prompt "Select a ship from your fleet\n#{show_ships(ships)}"
     until ships.include?(ship.to_i)
@@ -63,7 +67,7 @@ class TerminalIO
 
   def hit(hit, board)
     print_board(board)
-    hit ? enter_to_continue("HIT") : enter_to_continue("MISS")
+    hit == :hit ? enter_to_continue("HIT") : enter_to_continue("MISS")
   end
 
   def end(winner, board)
@@ -80,9 +84,5 @@ class TerminalIO
 
   def show_ships(ships)
     "You have these ships remaining: #{ships.join(", ")}"
-  end
-
-  def try_again(message)
-    "#{message}.\nTry again."
   end
 end

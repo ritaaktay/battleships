@@ -68,14 +68,14 @@ RSpec.describe Player do
         opp.own_board[5][5] = "S"
       end
       it 'returns true and marks opponent board with "X"' do
-        expect(player.shoot(opp: opp, row: 5, col: 5)).to eq true
+        expect(player.shoot(opp: opp, row: 5, col: 5)).to eq :hit
         expect(player.opp_board[5][5]).to eq "X"
       end
     end
 
     context 'when miss' do
       it 'returns false and marks opponent board with "O' do
-        expect(player.shoot(opp: opp, row: 5, col: 5)).to eq false
+        expect(player.shoot(opp: opp, row: 5, col: 5)).to eq :miss
         expect(player.opp_board[5][5]).to eq "O"
       end
     end
@@ -84,8 +84,8 @@ RSpec.describe Player do
   describe '.respond' do 
     context 'when miss' do
       it 'returns false and leaves own board unaltered' do
-        expect(player.respond(row:5, col:5)).to eq false
-        expect(player.own_board[5][5]).to eq "."
+        expect(player.respond(row:5, col:5)).to eq :miss
+        expect(player.own_board[5][5]).to eq "O"
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Player do
         player.own_board[5][5] = "S"
       end
       it 'returns true and marks own board with "X"' do
-        expect(player.respond(row:5, col:5)).to eq true
+        expect(player.respond(row:5, col:5)).to eq :hit
         expect(player.own_board[5][5]).to eq "X"
       end
     end

@@ -97,7 +97,7 @@ RSpec.describe TerminalIO do
         expect(io).to receive(:puts).with("HIT\nPress enter to continue.")
         expect(io).to receive(:gets).and_return("")
       end
-      it {terminal.hit(true, empty_board)}
+      it {terminal.hit(:hit, empty_board)}
     end
 
     context 'when miss' do
@@ -106,7 +106,7 @@ RSpec.describe TerminalIO do
         expect(io).to receive(:puts).with("MISS\nPress enter to continue.")
         expect(io).to receive(:gets).and_return("")
       end
-      it {terminal.hit(false, empty_board)}
+      it {terminal.hit(:miss, empty_board)}
     end
   end
 

@@ -40,23 +40,23 @@ RSpec.describe Game do
 end
 
 def player1_wins
-  both_players_shoot(player1_row: 2, player1_col: 2, player1_hit: true, player2_row:8, player2_col:8, player2_hit: false)
-  both_players_shoot(player1_row: 3, player1_col: 2, player1_hit: true, player2_row:8, player2_col:8, player2_hit: false)
-  both_players_shoot(player1_row: 0, player1_col: 0, player1_hit: true, player2_row:8, player2_col:8, player2_hit: false)
-  both_players_shoot(player1_row: 1, player1_col: 0, player1_hit: true, player2_row:8, player2_col:8, player2_hit: false)
-  both_players_shoot(player1_row: 2, player1_col: 0, player1_hit: true, player2_row:8, player2_col:8, player2_hit: false)
+  both_players_shoot(player1_row: 2, player1_col: 2, player1_hit: :hit, player2_row:8, player2_col:0, player2_hit: :miss)
+  both_players_shoot(player1_row: 3, player1_col: 2, player1_hit: :hit, player2_row:8, player2_col:1, player2_hit: :miss)
+  both_players_shoot(player1_row: 0, player1_col: 0, player1_hit: :hit, player2_row:8, player2_col:2, player2_hit: :miss)
+  both_players_shoot(player1_row: 1, player1_col: 0, player1_hit: :hit, player2_row:8, player2_col:3, player2_hit: :miss)
+  both_players_shoot(player1_row: 2, player1_col: 0, player1_hit: :hit, player2_row:8, player2_col:4, player2_hit: :miss)
   expect(io).to receive(:get_shot).with(rows:10, cols:10, board: game.player1.opp_board).and_return [3,0]
   expect(io).to receive(:end).with(1,game.player1.opp_board)
 end
 
 def player2_wins
-  both_players_shoot(player2_row: 2, player2_col: 2, player2_hit: true, player1_row:8, player1_col:8, player1_hit: false)
-  both_players_shoot(player2_row: 3, player2_col: 2, player2_hit: true, player1_row:8, player1_col:8, player1_hit: false)
-  both_players_shoot(player2_row: 0, player2_col: 0, player2_hit: true, player1_row:8, player1_col:8, player1_hit: false)
-  both_players_shoot(player2_row: 1, player2_col: 0, player2_hit: true, player1_row:8, player1_col:8, player1_hit: false)
-  both_players_shoot(player2_row: 2, player2_col: 0, player2_hit: true, player1_row:8, player1_col:8, player1_hit: false)
+  both_players_shoot(player2_row: 2, player2_col: 2, player2_hit: :hit, player1_row:8, player1_col:0, player1_hit: :miss)
+  both_players_shoot(player2_row: 3, player2_col: 2, player2_hit: :hit, player1_row:8, player1_col:1, player1_hit: :miss)
+  both_players_shoot(player2_row: 0, player2_col: 0, player2_hit: :hit, player1_row:8, player1_col:2, player1_hit: :miss)
+  both_players_shoot(player2_row: 1, player2_col: 0, player2_hit: :hit, player1_row:8, player1_col:3, player1_hit: :miss)
+  both_players_shoot(player2_row: 2, player2_col: 0, player2_hit: :hit, player1_row:8, player1_col:4, player1_hit: :miss)
   expect(io).to receive(:get_shot).with(rows:10, cols:10, board: game.player1.opp_board).and_return [8, 8]
-  expect(io).to receive(:hit).with(false, game.player1.opp_board).ordered
+  expect(io).to receive(:hit).with(:miss, game.player1.opp_board).ordered
   expect(io).to receive(:swap_players).with("Player 2, your turn").ordered
   expect(io).to receive(:get_shot).with(rows:10, cols:10, board: game.player2.opp_board).and_return [3, 0]
   expect(io).to receive(:end).with(2,game.player2.opp_board)

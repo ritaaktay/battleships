@@ -38,6 +38,11 @@ class Game
   def shot(shooter:, opp:)
     row, col = @io.get_shot(rows: @rows, cols: @cols, board: shooter.opp_board)
     hit = shooter.shoot(opp:opp, row: row, col: col)
+    while !hit
+      @io.display(@io.try_again("You already shot at that spot"))
+      row, col = @io.get_shot(rows: @rows, cols: @cols, board: shooter.opp_board)
+      hit = shooter.shoot(opp:opp, row: row, col: col)
+    end
     if opp.own_board.flatten.include?("S")
       @io.hit(hit, shooter.opp_board)
       return false
