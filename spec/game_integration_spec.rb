@@ -12,7 +12,7 @@ RSpec.describe Game do
     cols: 10,
   )}
 
-  describe '.setup' do
+  xdescribe '.setup' do
     context 'when valid location' do
       before {valid_set_up}
       it 'sets up all ships for both players' do
@@ -36,7 +36,7 @@ RSpec.describe Game do
     end
   end
 
-  describe '.loop_players' do
+  xdescribe '.loop_players' do
     context 'when win' do
       before do
         game.player2.own_board[5][5] = "S"

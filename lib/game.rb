@@ -12,6 +12,8 @@ class Game
     @io.end(winner == @player1 ? 1 : 2, winner.opp_board)
   end
 
+  private
+
   def setup
     @io.enter_to_continue("Welcome to the game!\nPlayer 1, ready to place your ships?")
     ship_placement(@player1)

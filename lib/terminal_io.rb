@@ -22,10 +22,6 @@ class TerminalIO
     prompt "#{message}\nPress enter to continue."
   end
 
-  def show_ships(ships)
-    "You have these ships remaining: #{ships.join(", ")}"
-  end
-
   def get_ship(ships)
     ship = prompt "Select a ship from your fleet\n#{show_ships(ships)}"
     until ships.include?(ship.to_i)
@@ -53,25 +49,16 @@ class TerminalIO
     game_index([row,col])
   end
 
-  def game_index(index)
-    return index.map {|i| i-1} if index.class == Array 
-    index-1
-  end
-
-  def try_again(feedback)
-    "#{feedback}.\nTry again."
+  def get_shot(rows:, cols:, board:)
+    print_board(board)
+    display "Call your shot."
+    get_row_col(rows: rows, cols: cols)
   end
 
   def print_board(board)
     display "\n"
     display board.map {|row| row.join(" ")}.join("\n")
     display "\n"
-  end
-
-  def get_shot(rows:, cols:, board:)
-    print_board(board)
-    display "Call your shot."
-    get_row_col(rows: rows, cols: cols)
   end
 
   def hit(hit, board)
@@ -82,5 +69,20 @@ class TerminalIO
   def end(winner, board)
     display "Player #{winner}, YOU WON!"
     print_board(board)
+  end
+
+  private 
+
+  def game_index(index)
+    return index.map {|i| i-1} if index.class == Array 
+    index-1
+  end
+
+  def show_ships(ships)
+    "You have these ships remaining: #{ships.join(", ")}"
+  end
+
+  def try_again(message)
+    "#{message}.\nTry again."
   end
 end

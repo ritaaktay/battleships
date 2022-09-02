@@ -74,11 +74,6 @@ RSpec.describe TerminalIO do
     it {expect(terminal.get_row_col(rows:10, cols:10)).to eq [8,5]}
   end
 
-  describe '.try_again' do
-    subject {terminal.try_again("Not valid")}
-    it {is_expected.to eq "Not valid.\nTry again."}
-  end
-
   describe '.print_board' do
     before do
       print_empty_board

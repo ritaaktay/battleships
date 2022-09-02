@@ -21,10 +21,6 @@ class Player
     remove_ship(ship)
   end
 
-  def remove_ship(ship)
-    @unplaced_ships.delete_at(@unplaced_ships.index(ship))
-  end
-
   def check_index(row:, col:, ship:, dir:)
     case dir
     when :vertical
@@ -59,5 +55,11 @@ class Player
     elsif @own_board[row][col] == "."
       false
     end
+  end
+
+  private
+  
+  def remove_ship(ship)
+    @unplaced_ships.delete_at(@unplaced_ships.index(ship))
   end
 end
