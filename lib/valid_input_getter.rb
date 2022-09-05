@@ -13,12 +13,13 @@ class ValidInputGetter
     {ship_length: @ship_length, dir: @dir, row: @row, col: @col}
   end
 
-  def get_shot
+  def get_shot(opp_board)
     loop do
       get_row_col
-      break if @board.check_index(@row,@col) == :hit || :miss
+      break if opp_board.check_index(@row,@col) == :hit || :miss
       @io.display(@formatter.invalid_shot)
     end
+    {row: @row, col: @col}
   end
 
   private
@@ -34,7 +35,7 @@ class ValidInputGetter
   def get_placement_position(board:, dir:, ship_length:)
     loop do
       get_row_col
-      valid? = ship_is_valid?
+      valid? = ship_is_valid? 
       break if valid?
       @io.display(valid?)
     end

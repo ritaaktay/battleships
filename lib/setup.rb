@@ -4,7 +4,7 @@ class Setup
   end
   end
 
-  def place_all_ships
+  def prepare_board
     loop do 
       input_getter = ValidInputGetter.new(board: @board, unplaced_ships: @unplaced_ships)
       #how to do parallel assignment for hash?
@@ -13,7 +13,6 @@ class Setup
       delete_ship(ship)
       break if @unplaced_ships.length == 0
     end
-    @board
   end
 
   private
