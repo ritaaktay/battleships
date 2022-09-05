@@ -1,62 +1,45 @@
 class Player
-  def initialize(rows:, cols:, ships:)
-    @own_board = Array.new(rows) {Array.new(cols, ".")}
-    @opp_board = Array.new(rows) {Array.new(cols, ".")}
-    @unplaced_ships = ships
+  def initialize(own_board:, board_size:, name:)
+    @own_board = own_board
+    @opp_board = Board.new(board_size)
+    @lost = false
+    @name = name
   end
 
-  attr_accessor :unplaced_ships, :own_board, :opp_board, :name
-
-  def place_ship(row:, col:, ship:, dir:)
-    case dir
-    when :vertical
-      for i in row...row+ship do
-        @own_board[i][col] = "S" 
-      end
-    when :horizontal
-      for i in col...col+ship do 
-        @own_board[row][i] = "S" 
-      end
-    end
-    remove_ship(ship)
-  end
-
-  def check_index(row:, col:, ship:, dir:)
-    case dir
-    when :vertical
-      for i in row...row+ship do
-        return "Ship does not fit on board" if !@own_board[i] || !@own_board[i][col]
-        return "Ship overlaps with another" if @own_board[i][col] == "S" 
-      end
-      return true
-    when :horizontal
-      for i in col...col+ship do 
-        return "Ship does not fit on board"  if !@own_board[row] || !@own_board[row][i]
-        return "Ship overlaps with another" if @own_board[row][i] == "S" 
-      end
-      return true
-    end
+  def already_shot?(row:, col:)
+    @opp_board[row][col] == :hit || :miss ? true : false
   end
 
   def shoot(opp:, row:, col:)
-    case opp.respond(row: row, col: col) 
+    case opp.respond(row: row, col: col)
     when false
-      false
+      #false
     when :hit
       @opp_board[row][col] = "X"
-      :hit
+      #:hit
     when :miss
       @opp_board[row][col] = "O"
-      :miss
-    end 
+      #:miss
+    when :end 
+      #:end
+    end
   end
+  
+  #be mindful of flow of operations here,
+  #when the game ends, @lose is updated to true
+  # own_board is marked, response sent as hit
+  # opp_board is marked by other player
+  # one shot cycle done, new shot cycle only begins by checking condition 
+  # if @lost == false for both players 
 
   def respond(row:, col:)
     case @own_board[row][col]
-    when "X" || "O"
-      false
-    when "S"
+    #check this syntax with when .class
+    when .class == Ship
       @own_board[row][col] = "X"
+      #cal all? have a code block? is there a none? method?
+      @lost = true if @own_board.faltten.none? {|x| x.class == Ship}
+      # return :end if @lose = true
       :hit
     when "."
       @own_board[row][col] = "O"
@@ -64,9 +47,7 @@ class Player
     end
   end
 
-  private
-  
-  def remove_ship(ship)
-    @unplaced_ships.delete_at(@unplaced_ships.index(ship))
+  def lost?
+    @lost
   end
 end
