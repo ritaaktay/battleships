@@ -1,14 +1,10 @@
 class TerminalIO
-  def initialize(io = Kernel)
-    @io = io
+  def gets
+    Kernel.gets
   end
 
-  def prompt(message)
-    @io.puts message
-    @io.gets.chomp
+  def puts(message)
+    Kernel.puts(message)
   end
-
-  def display(message)
-    @io.puts message
   end
 end

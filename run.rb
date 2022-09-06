@@ -14,16 +14,3 @@ user_interface = UserInterface.new(
   board_size: 10
 )
 user_interface.run
-
-
-#consolidate io and display formatter?
-#maybe another class output that has a formatter & io inside it
-#and another class input that has a formatter & io inside it
-#then valid input getter and user interface both use output & input
-
-#look at all comments
-#check yor syntax
-#make class diagram
-#test your logic
-
-#send to kay

@@ -1,9 +1,7 @@
 class ValidInputGetter
-  def initialize(io = TerminalIO.new, formatter = DisplayForamtter.new, unplaced_ships: = nil, board:)
-    @io, @formatter = io, formatter
+  def initialize(input: = Input.new, output: = Output.new, unplaced_ships: = nil, board:)
+    @input, @output = input, output
     @uncplaced_ships, @board = unplaced_ships, board
-    # can I declare nil variables like this?
-    @row, @col, @dir, @ship_length
   end
 
   def get_ship_placement
@@ -15,9 +13,10 @@ class ValidInputGetter
 
   def get_shot(opp_board)
     loop do
+      @output.prepare_shot(opp_board)
       get_row_col
       break if opp_board.check_index(@row,@col) == :hit || :miss
-      @io.display(@formatter.invalid_shot)
+      @output.invalid_shot
     end
     {row: @row, col: @col}
   end
@@ -26,9 +25,9 @@ class ValidInputGetter
   
   def get_ship_selection
     loop do 
-      @ship_length = @io.prompt(@formatter.format_ships(@unplaced_ships))
+      @ship_length = @input.ship_selection(@unplaced_ships)
       break if @unplaced_ships.include?(ship)
-      @io.display(@formatter.invalid_ship)
+      @output.invalid_ship_selection
     end 
   end
   
@@ -37,7 +36,7 @@ class ValidInputGetter
       get_row_col
       valid? = ship_is_valid? 
       break if valid?
-      @io.display(valid?)
+      @output.invalid_ship_placement(valid?)
     end
   end
 
@@ -51,27 +50,27 @@ class ValidInputGetter
         fits = @board.ship_fits?(@row, @col+x)
         overlaps = @board.ship_overlaps?(@row, @col+x)
       end
-      return @formatter.out_of_bounds_ship if !fits
-      return @formatter.overlapping_ship if overlaps
+      return :out_of_bounds if !fits
+      return :overlap if overlaps
     end
     true
   end
   
   def get_dir
     loop do 
-      dir = @io.prompt(@formatter.ask_dir) 
+      dir = @input.ask_dir
       break if "VHvh".include?(dir)
-      @io.display(@formatter.invalid_dir)
+      @output.invalid_dir
     end
     "Vv".include?(dir) ? @dir = :vertical : @dir = :horizontal
   end
 
   def get_row_col
     loop do
-      @row = game_index(@io.prompt(@formatter.ask_row).to_i)
-      @col = game_index(@io.prompt(@formatter.ask_col).to_i)
+      @row = game_index(@input.ask_row)
+      @col = game_index(@input.ask_col)
       break if @row > 0 && @row < @board.size && @col > 0 && @col < @board.size
-      @io.display(@formatter.invalid_row_col)
+      @output.invalid_row_col
     end
   end
 

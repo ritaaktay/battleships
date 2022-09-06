@@ -1,15 +1,21 @@
 class Game
-  def initialize(player_1, player_2)
+  def initialize(player_1:, player_2:)
     @player_1, @player_2 = player_1, player_2
     @input_getter = ValidInputGetter.new()
   end
 
-  def player_1_shoots
-    shoot(@player_1)
+  def turn?
+    @turn.name
   end
 
-  def player_2_shoots
-    shoot(@player_2)
+  def player_1_shoot
+    shot = shoot(@player_1)
+    {shot: shot, board: @player_1.opp_board}
+  end
+
+  def player_2_shoot
+    shot = shoot(@player_2)
+    {shot: shot, board: @player_2.opp_board}
   end
 
   def end?

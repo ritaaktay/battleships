@@ -19,4 +19,8 @@ class Board
   def ship_fits?(row, col)
     @board[row][col] != nil
   end
+
+  def lost?
+    @board.faltten.none? {|x| x.class == Ship}
+  end
 end
