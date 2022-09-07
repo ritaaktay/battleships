@@ -1,6 +1,7 @@
 class Player
-  def initialize(own_board:, opp_board:)
-    @own_board, @opp_board = own_board, opp_board
+  def initialize(own_board:, board_size:)
+    @own_board = own_board
+    @opp_board = Board.new(board_size)
     @lost? = false
   end
 

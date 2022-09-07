@@ -1,6 +1,7 @@
 class Game
-  def initialize(player_1:, player_2:)
-    @player_1, @player_2 = player_1, player_2
+  def initialize(player_1_board:, player_2_board:, board_size)
+    @player_1 = Player.new(own_board: player_1_board, board_size: board_size))
+    @player_2 = Player.new(own_board: player_2_board board_size: board_size))
     @input_getter = ValidInputGetter.new()
   end
 

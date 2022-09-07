@@ -28,9 +28,7 @@ class UserInterface
     player_2_board = setup.prepare_board
     @output.ready_for_battle
     swap_players
-    player_1 = Player.new(own_board: player_1_board, opp_board: Board.new(@board_size))
-    player_2 = Player.new(own_board: player_2_board opp_board: Board.new(@board_size))
-    @game = Game.new(player_1: @player_1,player_2: @player_2)
+    @game = Game.new(player_1_board: player_1_board,player_2_board: player_2_board, board_size: @board_size)
   end
 
   def loop_players
