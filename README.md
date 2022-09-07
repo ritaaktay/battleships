@@ -6,6 +6,8 @@
    Player --> Board
    Game --> Player
    Game --> ValidInputGetter
+   ValidInputGetter --> Input
+   ValidInputGetter --> Output
    UserInterface --> Game
    User Interface --> Setup
    UserInterface --> Input
