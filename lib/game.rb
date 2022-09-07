@@ -4,10 +4,6 @@ class Game
     @input_getter = ValidInputGetter.new()
   end
 
-  def turn?
-    @turn.name
-  end
-
   def player_1_shoot
     shot = shoot(@player_1)
     {shot: shot, board: @player_1.opp_board}

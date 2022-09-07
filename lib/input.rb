@@ -20,7 +20,7 @@ class Input
     nil
   end
 
-  def ship_selection(@unplaced_ships)
+  def aks_ship_selection(@unplaced_ships)
     prompt(@formatter.format_ships(@unplaced_ships))
   end
 

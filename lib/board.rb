@@ -1,7 +1,6 @@
 class Board
   def initialize(size)
     @board = Array.new(size) {Array.new(size, :empty)}
-    @size = size
   end
 
   def check_index(row, col)
@@ -20,7 +19,11 @@ class Board
     @board[row][col] != nil
   end
 
-  def lost?
+  def already_shot?(row,col)
+      @board[row][col] == :hit || :miss ? true : false
+    end
+
+  def no_ships?
     @board.faltten.none? {|x| x.class == Ship}
   end
 end

@@ -1,7 +1,7 @@
 class UserInterface
   def initialize(input: = Input.new, output: = Output.new, ship_lengths:, board_size:)
     @ship_lengths, @board_size = ship_lengths, board_size
-    @formatter, @input = input, output
+    @input, @output = input, output
     @turn = :player_1
   end
 
@@ -20,20 +20,17 @@ class UserInterface
   end
   
   def setup
-    setup = Setup.new(board_size: @board_size, ship_lengths: @ship_length)
-    setup.prepare_player_1
+    setup = Setup.new(board_size: @board_size, ship_lengths: @ship_lengths)
+    player_1_board = setup.prepare_board
     @output.ready_for_battle
     swap_players
-    setup.prepare_player_2
+    setup = Setup.new(board_size: @board_size, ship_lengths: @ship_lengths)
+    player_2_board = setup.prepare_board
     @output.ready_for_battle
     swap_players
-    @game = setup.prepare_game
-  end
-
-  def swap_players
-    @input.enter_to_continue
-    @turn == :player_1 ? @turn = :player_2 : @turn = :player_1
-    @output.swap_players(@turn)
+    player_1 = Player.new(own_board: player_1_board, opp_board: Board.new(@board_size))
+    player_2 = Player.new(own_board: player_2_board opp_board: Board.new(@board_size))
+    @game = Game.new(player_1: @player_1,player_2: @player_2)
   end
 
   def loop_players
@@ -47,6 +44,12 @@ class UserInterface
       break if game.win?
       @output.after_shot(shot: shot, board: board)
     end
+  end
+
+  def swap_players
+    @input.enter_to_continue
+    @turn == :player_1 ? @turn = :player_2 : @turn = :player_1
+    @output.swap_players(@turn)
   end
 
   def end_game

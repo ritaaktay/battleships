@@ -1,28 +1,7 @@
 class Setup
   def initialize(board_size:, ship_lengths:)
-    @board_size, @ship_lengths = board_size, ship_lengths
-  end
-
-  def prepare_player_1
-    swap_players
-    @player_1 = Player.new(own_board: prepare_board, opp_board: Board.new(@board_size))
-  end
-
-  def prepare_player_2
-    swap_players
-    @player_2 = Player.new(own_board: prepare_board, opp_board: Board.new(@board_size))
-  end
-
-  def prepare_game
-    game = Game.new(
-      player_1: @player_1,
-      player_2: @player_2,
-    )
-  end
-
-  def swap_players
     @board = Board.new(@board_size)
-    @uncplaced_ships = ship_lengths
+    @unplaced_ships = ship_lengths
   end
 
   def prepare_board
@@ -34,6 +13,7 @@ class Setup
       delete_ship(ship)
       break if @unplaced_ships.length == 0
     end
+    @board
   end
 
   private

@@ -1,43 +1,34 @@
 class Player
-  def initialize(own_board:, opp_board:, name:)
+  def initialize(own_board:, opp_board:)
     @own_board, @opp_board = own_board, opp_board
-    @lost = false
-    @name = name
+    @lost? = false
   end
 
-  attr_reader :opp_board
-
-  def already_shot?(row:, col:)
-    @opp_board[row][col] == :hit || :miss ? true : false
-  end
+  attr_reader :opp_board, :lost?
 
   def shoot(opp:, row:, col:)
-    response = opp.respond(row: row, col: col)
+    response = opp.respond(row,col)
     case response
     when :hit || :sunk
-      @opp_board[row][col] = :hit
-      response
+      @opp_board.change_index(row,col,:hit)
     when :miss
-      @opp_board[row][col] = :miss
-      :miss
+      @opp_board(row,col,:miss)
     end
+    response
   end
 
-  def respond(row:, col:)
-    case @own_board[row][col]
+  def respond(row, col)
+    case @own_board.check_index(row,col)
     when :empty
-      @own_board[row][col] = :miss
+      @own_board.change_index(row,col,:miss)
       :miss
     else 
-      ship = @own_board[row][col]
+      ship = @own_board.check_index(row,col)
       ship.hit
-      @own_board[row][col] = :hit
-      @lost = @own_board.lost?
-      ship.sunk? :sunk : :hit
+      response = ship.sunk? :sunk : :hit
+      @own_board.change_index(row,col,:hit)
+      @lost = @own_board.no_ships?
+      response
     end
-  end
-
-  def lost?
-    @lost
   end
 end
