@@ -44,7 +44,7 @@
    class Setup {
       -Array board
       -Array unplaced_ships
-      +prepare_board
+      +prepare_board()
       -place_ship()
       -more_ships?()
       -delete_ship()
