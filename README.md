@@ -7,10 +7,10 @@
    Game --> Player
    Game --> ValidInputGetter
    UserInterface --> Player
-   UserInterface --> Input
-   UserInterface --> Output
    UserInterface --> Game
    User Interface --> Setup
+   UserInterface --> Input
+   UserInterface --> Output
    Input --> TerminalIO
    Input --> DisplayFormatter
    Output --> TerminalIO
