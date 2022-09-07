@@ -1,11 +1,21 @@
 ```mermaid
    classDiagram
-
-   Ship -- Board
-   Setup --> "2" Board
+   Board --> Ship
+   Setup --> Board
    Setup --> ValidInputGetter
-   Setup --> Player
-
+   Player --> Board
+   Game --> Player
+   Game --> ValidInputGetter
+   UserInterface --> Player
+   UserInterface --> Input
+   UserInterface --> Output
+   UserInterface --> Game
+   User Interface --> Setup
+   Input --> TerminalIO
+   Input --> DisplayFormatter
+   Output --> TerminalIO
+   Output --> DisplayFormatter
+   
    class Ship{
       -Array ship
       +sunk?()
