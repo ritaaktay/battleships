@@ -35,7 +35,7 @@
       -Array unplaced_ships
       +prepare_board
       -place_ship()
-      -more_ships?
+      -more_ships?()
       -delete_ship()
    }
 
@@ -59,7 +59,7 @@
       +get_shot()
       -get_ship_selection()
       -get_placement_position()
-      -ship_is_valid?
+      -ship_is_valid?()
       -get_dir()
       -get_row_col()
       -game_index()
@@ -82,11 +82,11 @@
    class Input {
       -TerminalIO io
       -DisplayFormatter formatter
-      +ask_row
-      +ask_col
-      +ask_dir
-      +enter_to_continue
-      +ask_ship_selection
+      +ask_row()
+      +ask_col()
+      +ask_dir()
+      +enter_to_continue()
+      +ask_ship_selection()
       -prompt()
    }
 
